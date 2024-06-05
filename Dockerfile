@@ -18,7 +18,7 @@ COPY . .
 
 # Build the application using the Gradle Wrapper
 RUN chmod +x gradlew
-RUN ./gradlew build --stacktrace
+RUN ./gradlew build 
 
 # Use a minimal base image for the runtime
 FROM adoptopenjdk:11-jre-hotspot
