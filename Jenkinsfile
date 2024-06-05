@@ -1,6 +1,6 @@
 @Library('Jenkins-Shared-Library')_
 pipeline {
-    agent any
+    agent node('jenkins-slave')
     
     environment {
         dockerHubCredentialsID	    = 'DockerHub'  		    			// DockerHub credentials ID.
