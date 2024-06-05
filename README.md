@@ -45,6 +45,8 @@ This project sets up a Jenkins pipeline to automate the CI/CD process for an app
 
 ### Set Up GitHub Shared Library
 
+[GitHub Shared Library link](https://github.com/AliKhamed/shared_library_oc)
+
 1. Create a shared library in a GitHub repository.
    
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/shared2.png)
