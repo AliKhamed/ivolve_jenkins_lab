@@ -4,8 +4,10 @@ pipeline {
     
     environment {
         dockerHubCredentialsID	    = 'DockerHub'  		    			// DockerHub credentials ID.
-        imageName   		    = 'alikhames/java-app'     			// DockerHub repo/image name.
-	k8sCredentialsID	    = 'kubernetes'	    				// KubeConfig credentials ID.    
+        imageName   		    = 'alikhames/java-app'     			        // DockerHub repo/image name.
+	openshiftCredentialsID	    = 'openshift'	    				// KubeConfig credentials ID.   
+	nameSpace                   = 'alikhames'
+	clusterUrl                  = 'https://api.ocp-training.ivolve-test.com:6443'
     }
     
     stages {       
@@ -13,10 +15,9 @@ pipeline {
         stage('Run Unit Test') {
             steps {
                 script {
-                	// Navigate to the directory contains the Application
-                	dir('App') {
-                		runUnitTests
-            		}
+                	
+                	runUnitTests
+            		
         	}
     	    }
 	}
@@ -25,22 +26,30 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                	// Navigate to the directory contains Dockerfile
-                 	dir('App') {
-                 		buildandPushDockerImage("${dockerHubCredentialsID}", "${imageName}")
+                 	
+                 	buildandPushDockerImage("${dockerHubCredentialsID}", "${imageName}")
                         
-                    	}
+                    	
+                }
+            }
+        }
+	stage('Edit new image in deployment.yaml file') {
+            steps {
+                script { 
+                	dir('oc') {
+				        editNewImage("${imageName}")
+			}
                 }
             }
         }
 
-        stage('Deploy on k8s Cluster') {
+        stage('Deploy on OpenShift Cluster') {
             steps {
                 script { 
-                        // Navigate to the directory contains kubernetes YAML files
-                	dir('k8s') {
-				deployOnKubernetes("${k8sCredentialsID}", "${imageName}")
-                    	}
+			dir('oc') {
+                        
+				deployOnOc("${openshiftCredentialsID}", "${nameSpace}", "${clusterUrl}")
+			}
                 }
             }
         }
