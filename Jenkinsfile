@@ -1,11 +1,12 @@
 @Library('Jenkins-Shared-Library')_
 pipeline {
-    agent { 
-        // Specifies a label to select an available agent
-        node { 
-            label 'jenkins-slave'
-        }
-    }
+    agent any
+	//{ 
+    //     // Specifies a label to select an available agent
+    //     node { 
+    //         label 'jenkins-slave'
+    //     }
+    //}
     
     environment {
         dockerHubCredentialsID	    = 'DockerHub'  		    			// DockerHub credentials ID.
