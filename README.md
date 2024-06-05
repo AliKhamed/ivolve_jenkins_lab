@@ -106,7 +106,7 @@ This project sets up a Jenkins pipeline to automate the CI/CD process for an app
 
 4. The final Jenkinsfile or pipeline contents
    
-   ```
+```
    
 @Library('Jenkins-Shared-Library')_
 pipeline {
