@@ -1,0 +1,7 @@
+---
+- name: Install Docker and oc cli
+  hosts: all
+  #gather_facts: false
+  roles:
+    - docker
+    - oc_cli
