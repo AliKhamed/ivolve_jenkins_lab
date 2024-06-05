@@ -51,9 +51,66 @@ This project sets up a Jenkins pipeline to automate the CI/CD process for an app
    
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/shared2.png)
    
-2. Define common pipeline steps (e.g., test, build, push, deploy) in the shared library.
+2. Define common pipeline steps (e.g., test, build, push, deploy) in the shared library As a groovy function.
    
-3. And configure it in Jenkins
+  ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/shared3.png)
+
+#### runUnitTests function
+   ```
+	   #!/usr/bin/env groovy
+	   def call() {
+		echo "Running Unit Test..."
+		sh './gradlew clean test'	
+	      }
+   ```
+
+#### buildandPushDockerImage function
+   ```
+	    #!usr/bin/env groovy
+	    def call(String dockerHubCredentialsID, String imageName) {
+	
+		// Log in to DockerHub 
+		withCredentials([usernamePassword(credentialsId: "${dockerHubCredentialsID}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+			sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+	        }
+	        
+	        // Build and push Docker image
+	        echo "Building and Pushing Docker image..."
+	        sh "docker build -t ${imageName}:${BUILD_NUMBER} ."
+	        sh "docker push ${imageName}:${BUILD_NUMBER}"	 
+	       }
+   ```
+
+#### editNewImage function
+   ```
+	#!/usr/bin/env groovy
+
+       def call(String imageName) {
+    
+       // Edit deployment.yml with new Docker Hub image
+       sh "sed -i 's|image:.*|image: ${imageName}:${BUILD_NUMBER}|g' deployment.yml"
+
+        }
+   ```
+
+#### deployOnOc function
+   ```
+	 #!/usr/bin/env groovy
+	
+	 def call(String openshiftCredentialsID, String nameSpace, String clusterUrl) {
+	
+	    
+	    // Login to OpenShift using the service account token
+	    withCredentials([string(credentialsId: openshiftCredentialsID, variable: 'OC_TOKEN')]) {
+	        sh "oc login --token=$OC_TOKEN --server=$clusterUrl --insecure-skip-tls-verify"
+	    }
+	
+	    // Apply the updated deployment.yaml to the OpenShift cluster
+	    sh "oc apply -f . --namespace=${nameSpace}"
+	}
+   ```
+   
+4. And configure it in Jenkins
    
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/shared1.png)
 
