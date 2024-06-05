@@ -28,42 +28,64 @@ This project sets up a Jenkins pipeline to automate the CI/CD process for an app
 ### Configure Jenkins EC2 Slave
 
 1. Launch an EC2 instance.
+   
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/ec2.png)
+   
 2. Configure the EC2 instance as a Jenkins build agent.
+   
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/node1.png)
+   
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/node2.png)
    
 3. Install OpenJDK, Docker and oc cli on the EC2 instance Using Ansible Playbook.
+   
    #### In this repo there is Ansible folder download it and install playbook roles
+   
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/ansible.png)
 
 ### Set Up GitHub Shared Library
 
 1. Create a shared library in a GitHub repository.
+   
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/shared2.png)
+   
 2. Define common pipeline steps (e.g., test, build, push, deploy) in the shared library.
+   
 3. And configure it in Jenkins
+   
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/shared1.png)
 
 ### Set Up Jenkins Credentials 
 
 1. Create The github, dockerhub, oc-token As.
+   
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/cred1.png)
+   
 2. Define common pipeline steps (e.g., test, build, push, deploy) in the shared library.
+   
 3. And oc-token in Jenkins As
    #### get token from openshift cluster by
+   
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/gettoken.png)
+   
    #### And add it in
+   
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/cred2.png)
 
 ### Create Jenkins Pipeline Job
 
 1. Go to Jenkins dashboard and create a new pipeline job and write.
+   
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/create_pip.png)
+   
    #### And Configure your pipline as following
+   
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/pipconfig1.png)
+   
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/pipconfig2.png)
+   
 2. Configure the job to use the EC2 slave as the build agent.
+   
    ```
    pipeline {
     agent { 
@@ -72,15 +94,20 @@ This project sets up a Jenkins pipeline to automate the CI/CD process for an app
              label 'jenkins-slave'
          }
     }
+   
    ```
+   
 3. Configure the pipeline script to use the shared library by adding the following line in the first line in your Jenkinsfile Pipeline.
+   
    ```
    @Library('Jenkins-Shared-Library')_
    
    ```
 
 4. The final Jenkinsfile or pipeline contents
+   
    ```
+   
 @Library('Jenkins-Shared-Library')_
 pipeline {
     agent { 
@@ -152,7 +179,7 @@ pipeline {
         }
     }
 }
-``
+```
 
 ### Build Pipeline
 #### Results 
@@ -164,10 +191,12 @@ pipeline {
    ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/oc-check.png)
 
 ### Check your Application 
-#### By run 
+#### By run
+
 ```
 oc get route route-name -n namespace
 ```
+
 #### And add route link into your browser
 
 ![](https://github.com/AliKhamed/ivolve_jenkins_lab/blob/master/screenshots/approute.png)
