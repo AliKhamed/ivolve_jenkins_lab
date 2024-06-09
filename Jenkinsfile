@@ -28,6 +28,12 @@ pipeline {
         	}
     	    }
 	}
+	stage('Build') {
+            steps {
+                sh 'chmod +x ./gradlew'
+                sh './gradlew clean build'
+            }
+        }
 	stage('SonarQube Analysis') {
             steps {
                 withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
