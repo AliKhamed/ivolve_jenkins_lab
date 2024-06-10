@@ -15,7 +15,7 @@ pipeline {
 	nameSpace                   = 'alikhames'
 	clusterUrl                  = 'https://api.ocp-training.ivolve-test.com:6443'
 	SONAR_PROJECT_KEY           = 'my-sonarqube-demo'
-	gitRepoName 	            = 'ivolve_jenkins_lab'
+	gitRepoName 	            = 'ivolve_java_app'
         gitUserName 	            = 'Alikhamed'
 	gitUserEmail                = 'Alikhames566@gmail.com'
 	githubToken                 = 'github-token'
