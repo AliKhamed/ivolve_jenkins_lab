@@ -19,6 +19,7 @@ pipeline {
         gitUserName 	            = 'Alikhamed'
 	gitUserEmail                = 'Alikhames566@gmail.com'
 	githubToken                 = 'github-token'
+	sonarqubeUrl                = 'http://192.168.49.1:9000/'
     }
     
     stages {       
@@ -34,22 +35,18 @@ pipeline {
 	}
 	stage('Build') {
             steps {
-                sh 'chmod +x ./gradlew'
-                sh './gradlew clean build'
+                script {
+                	
+                	build
+            		
+        	}
             }
         }
 	stage('SonarQube Analysis') {
             steps {
-                withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
-                    sh """
-                        ./gradlew sonar \
-                        -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
-                        -Dsonar.host.url=http://192.168.49.1:9000/ \
-                        -Dsonar.token=${SONAR_TOKEN} \
-                        -Dsonar.scm.provider=git \
-                        -Dsonar.java.binaries=build/classes
-                    """
-                }
+		script {
+                      sonarQubeAnalysis("${sonar-token}", "${SONAR_PROJECT_KEY}", "${sonarqubeUrl}")
+		}
             }
         }
        
