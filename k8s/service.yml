@@ -4,7 +4,7 @@ metadata:
   name: java-app-service
 spec: 
   ports: 
-  - nodePort: 30005 
+  - nodePort: 30814  
     port: 5000 
     protocol: TCP 
     targetPort: 5000 
