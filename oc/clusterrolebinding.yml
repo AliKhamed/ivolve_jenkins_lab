@@ -1,5 +1,5 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
   name: superuser-binding
 subjects:
@@ -7,6 +7,6 @@ subjects:
   name: alikhames
   apiGroup: rbac.authorization.k8s.io
 roleRef:
-  kind: ClusterRole
+  kind: Role
   name: superuser
   apiGroup: rbac.authorization.k8s.io
