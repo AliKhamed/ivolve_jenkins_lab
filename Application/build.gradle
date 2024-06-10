@@ -6,8 +6,8 @@ plugins {
 }
 sonar {
   properties {
-    property "sonar.projectKey", "my-sonarqube-demo"
-    property "sonar.projectName", "my-sonarqube-demo"
+    property "sonar.projectKey", "java-application"
+    property "sonar.projectName", "java-application"
   }
 }
 
