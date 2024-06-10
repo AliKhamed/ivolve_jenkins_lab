@@ -15,6 +15,10 @@ pipeline {
 	nameSpace                   = 'alikhames'
 	clusterUrl                  = 'https://api.ocp-training.ivolve-test.com:6443'
 	SONAR_PROJECT_KEY           = 'my-sonarqube-demo'
+	gitRepoName 	            = 'ivolve_jenkins_lab'
+        gitUserName 	            = 'Alikhamed'
+	gitUserEmail                = 'Alikhames566@gmail.com'
+	githubToken                 = 'github-token'
     }
     
     stages {       
@@ -62,9 +66,7 @@ pipeline {
 	stage('Edit new image in deployment.yaml file') {
             steps {
                 script { 
-                	dir('oc') {
-				        editNewImage("${imageName}")
-			}
+                	editNewImage("${githubToken}", "${imageName}", "${gitUserEmail}", "${gitUserName}", "${gitRepoName}")
                 }
             }
         }
