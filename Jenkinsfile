@@ -45,9 +45,16 @@ pipeline {
         }
 	stage('SonarQube Analysis') {
             steps {
-		script {
-                      sonarQubeAnalysis(sonarTokenCredentialsID, "${SONAR_PROJECT_KEY}", "${sonarqubeUrl}")
-		}
+		withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+                        sh  """
+                            ./gradlew sonar \
+                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                            -Dsonar.host.url=${sonarqubeUrl} \
+                            -Dsonar.token=${SONAR_TOKEN} \
+                            -Dsonar.scm.provider=git \
+                            -Dsonar.java.binaries=build/classes
+                            """
+               }
             }
         }
        
