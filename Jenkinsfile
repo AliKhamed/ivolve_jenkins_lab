@@ -21,6 +21,7 @@ pipeline {
 	githubToken                 = 'github-token'
 	sonarqubeUrl                = 'http://192.168.49.1:9000/'
 	sonarTokenCredentialsID     = 'sonar-token'
+	k8sCredentialsID	    = 'kubernetes'
     }
     
     stages {       
@@ -77,17 +78,26 @@ pipeline {
                 }
             }
         }
-
-        stage('Deploy on OpenShift Cluster') {
+	stage('Deploy on ArgoCD') {
             steps {
                 script { 
-			dir('oc') {
-                        
-				deployOnOc("${openshiftCredentialsID}", "${nameSpace}", "${clusterUrl}")
-			}
+                	
+			 deployOnArgoCD("${k8sCredentialsID}")
+                    
                 }
             }
         }
+
+   //      stage('Deploy on OpenShift Cluster') {
+   //          steps {
+   //              script { 
+			// dir('oc') {
+                        
+			// 	deployOnOc("${openshiftCredentialsID}", "${nameSpace}", "${clusterUrl}")
+			// }
+   //              }
+   //          }
+   //      }
     }
 
     post {
