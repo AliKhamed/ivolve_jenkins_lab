@@ -20,6 +20,7 @@ pipeline {
 	gitUserEmail                = 'Alikhames566@gmail.com'
 	githubToken                 = 'github-token'
 	sonarqubeUrl                = 'http://192.168.49.1:9000/'
+	sonarQubeCredentialsID	    = 'sonar-token'
     }
     
     stages {       
@@ -45,7 +46,7 @@ pipeline {
 	stage('SonarQube Analysis') {
             steps {
 		script {
-                      sonarQubeAnalysis('sonar-token', "${SONAR_PROJECT_KEY}", "${sonarqubeUrl}")
+                      sonarQubeAnalysis("${sonarQubeCredentialsID}", "${SONAR_PROJECT_KEY}", "${sonarqubeUrl}")
 		}
             }
         }
