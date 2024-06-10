@@ -46,7 +46,7 @@ pipeline {
 	stage('SonarQube Analysis') {
             steps {
 		script {
-                      sonarQubeAnalysis("${sonarTokenCredentialsID}", "${SONAR_PROJECT_KEY}", "${sonarqubeUrl}")
+                      sonarQubeAnalysis(sonarTokenCredentialsID, "${SONAR_PROJECT_KEY}", "${sonarqubeUrl}")
 		}
             }
         }
